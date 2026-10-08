@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人性十道题 · 62题照见你人性里十道不敢开灯的门</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E1030'/%3E%3Cpolygon points='32,12 43.8,15.8 51,25.8 51,38.2 43.8,48.2 32,52 20.2,48.2 13,38.2 13,25.8 20.2,15.8' fill='none' stroke='%23E0675A' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23E0675A'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#1E1030;
+  --panel:#281541;
+  --panel2:#301B4D;
+  --line:rgba(238,226,250,.12);
+  --ink:#F4EDFA;
+  --dim:#B6A8C8;
+  --faint:#837493;
+  --accent:#E0675A;
+  --accent-soft:rgba(224,103,90,.15);
+  --serif:'Noto Serif SC',serif;
+  --sans:'Noto Sans SC',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+#app{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 20px}
+.shell{width:100%;max-width:620px;padding:44px 0 60px}
+.view{display:none}
+.view.on{display:block;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.35}
+button{
+  font-family:var(--sans);
+  border:none;cursor:pointer;
+  transition:background .2s,transform .08s,box-shadow .2s;
+}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button:active{transform:scale(.98)}
+
+/* ===== 封面 ===== */
+.cover-eyebrow{color:var(--dim);font-size:13px;letter-spacing:.18em;margin-bottom:18px}
+.cover-title{font-size:42px;font-weight:900;letter-spacing:.02em;margin-bottom:14px}
+.cover-title .t2{color:var(--accent)}
+.cover-sub{color:var(--dim);font-size:15px;max-width:34em;margin-bottom:26px}
+.cover-meta{color:var(--faint);font-size:13px;margin-bottom:34px}
+.rules{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:34px}
+.rules h3{font-size:15px;margin-bottom:12px;color:var(--ink)}
+.rules p{font-size:14px;color:var(--dim);margin-bottom:10px}
+.rules p:last-child{margin-bottom:0}
+.rules b{color:var(--ink);font-weight:500}
+.btn-start{
+  display:block;width:100%;padding:15px 0;border-radius:12px;
+  background:var(--accent);color:#fff;
+  font-size:16px;font-weight:700;letter-spacing:.06em;
+}
+.btn-start:hover{background:#ED7A6C;box-shadow:0 6px 24px rgba(224,103,90,.25)}
+
+/* ===== 答题 ===== */
+.quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.quiz-level{font-family:var(--serif);font-size:16px;font-weight:700}
+.quiz-count{color:var(--faint);font-size:13px;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:6px;margin-bottom:22px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(238,226,250,.14)}
+.dot.done{background:var(--accent)}
+.dot.now{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.bar{height:3px;background:rgba(238,226,250,.12);border-radius:2px;margin-bottom:34px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:2px;transition:width .35s ease}
+.qstem{
+  font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.75;
+  margin-bottom:30px;
+}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{
+  display:flex;gap:14px;align-items:flex-start;text-align:left;
+  width:100%;padding:15px 18px;border-radius:12px;
+  background:var(--panel);border:1px solid var(--line);color:var(--ink);
+  font-size:15px;line-height:1.65;
+}
+.opt:hover{border-color:rgba(224,103,90,.45);background:var(--panel2)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt .k{
+  flex:none;width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--faint);color:var(--dim);
+  font-size:12px;display:flex;align-items:center;justify-content:center;
+  margin-top:2px;transition:all .15s;
+}
+.opt.sel .k{background:var(--accent);border-color:var(--accent);color:#fff}
+.quiz-nav{display:flex;gap:12px;margin-top:26px}
+.btn-nav{flex:1;padding:13px 0;border-radius:12px;font-size:15px;font-weight:700}
+.btn-prev{background:transparent;border:1px solid var(--line);color:var(--dim)}
+.btn-prev:hover{color:var(--ink);border-color:var(--faint)}
+.btn-nextq{background:var(--faint);color:rgba(255,255,255,.5);opacity:.55;cursor:not-allowed}
+.btn-nextq.ready{background:var(--accent);color:#fff;opacity:1;cursor:pointer}
+.btn-nextq.ready:hover{background:#ED7A6C;box-shadow:0 6px 24px rgba(224,103,90,.25)}
+
+/* ===== 关卡反馈 ===== */
+.res-level{margin-bottom:30px}
+.res-level .ln{font-size:13px;color:var(--dim);margin-bottom:6px}
+.res-pattern{font-family:var(--serif);font-size:32px;font-weight:900;margin-bottom:10px}
+.res-pattern .pt{color:var(--accent)}
+.res-reading{font-size:15px;color:var(--dim);line-height:1.8}
+.res-reading b{color:var(--ink)}
+.btn-next{
+  display:block;width:100%;padding:14px 0;border-radius:12px;
+  background:var(--accent);color:#fff;font-size:15px;font-weight:700;
+}
+.btn-next:hover{background:#ED7A6C}
+.btn-ghost{
+  display:block;width:100%;padding:12px 0;border-radius:12px;margin-top:12px;
+  background:transparent;border:1px solid var(--line);color:var(--dim);font-size:14px;
+}
+.btn-ghost:hover{color:var(--ink);border-color:var(--faint)}
+
+/* ===== 报告 ===== */
+.report-title{font-size:34px;font-weight:900;margin-bottom:8px}
+.report-sub{color:var(--dim);font-size:14px;margin-bottom:34px}
+.sec{margin-bottom:38px}
+.sec-h{font-size:13px;letter-spacing:.16em;color:var(--accent);margin-bottom:18px;font-family:var(--sans);font-weight:700}
+.sub-h{font-size:13px;letter-spacing:.12em;color:var(--faint);margin:26px 0 12px;font-family:var(--sans);font-weight:700}
+.radar-card{background:#F5EFE7;border-radius:18px;padding:30px 22px 30px}
+.radar{width:100%;max-width:580px;height:auto;display:block;margin:0 auto}
+.hot-card{background:var(--accent-soft);border:1px solid rgba(224,103,90,.35);border-radius:16px;padding:26px 28px}
+.hot-card .hc-t{font-size:13px;color:var(--accent);letter-spacing:.14em;margin-bottom:10px}
+.hot-card .hc-p{font-family:var(--serif);font-size:24px;font-weight:900;margin-bottom:14px;line-height:1.45}
+.hot-card .hc-p .pt{color:var(--accent)}
+.hot-card p{font-size:16px;color:var(--dim);line-height:2}
+.love-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px 22px}
+.love-line{padding:14px 0;border-bottom:1px solid var(--line)}
+.love-line:last-child{border-bottom:none}
+.love-line .ll-h{font-size:13px;color:var(--faint);margin-bottom:4px}
+.love-line .ll-p{font-size:16px;font-weight:700;margin-bottom:6px}
+.love-line .ll-p .pt{color:var(--accent)}
+.love-line p{font-size:15px;color:var(--dim);line-height:1.85}
+.disc{color:var(--faint);font-size:12px;line-height:1.8;margin-top:8px}
+.btn-restart{margin-top:34px}
+
+@media (max-width:520px){
+  .cover-title{font-size:34px}
+  .qstem{font-size:18px}
+  .report-title{font-size:28px}
+  .shell{padding:30px 0 50px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="shell view" id="view-cover">
+    <div class="cover-eyebrow">一份只给自己看的测试</div>
+    <h1 class="cover-title">人性十道题<br><span class="t2">62 题，照出你人性里十道不敢开灯的门</span></h1>
+    <p class="cover-sub">这里没有正确答案，只有你不想承认的答案。每一关都是具体到毛孔的场景，选项走抽象路线。选那个让你心里「咯噔」一下的，而不是「体面的那个」。</p>
+    <p class="cover-meta">全程约 16 分钟 · 无对错 · 结果只属于你</p>
+    <div class="rules">
+      <h3>开测前，只说三条</h3>
+      <p><b>一、越诚实越准。</b>选第一反应，不选「体面的那个」。</p>
+      <p><b>二、答错可改。</b>选完先看看自己的选择，点「下一题」才走；想改就点「上一题」重选。</p>
+      <p><b>三、一关一关来。</b>每关 6 题，答完立刻给你本关暗面，不用攒到最后。</p>
+    </div>
+    <button class="btn-start" id="btnStart">开始作答</button>
+  </div>
+
+  <div class="shell view" id="view-quiz" style="display:none">
+    <div class="quiz-top">
+      <div class="quiz-level" id="quizLevel"></div>
+      <div class="quiz-count" id="quizCount"></div>
+    </div>
+    <div class="dots" id="quizDots"></div>
+    <div class="bar"><i id="quizBar"></i></div>
+    <p class="qstem" id="quizStem"></p>
+    <div class="opts" id="quizOpts"></div>
+    <div class="quiz-nav">
+      <button class="btn-nav btn-prev" id="btnPrevQ" type="button">← 上一题</button>
+      <button class="btn-nav btn-nextq" id="btnNextQ" type="button" disabled>下一题</button>
+    </div>
+  </div>
+
+  <div class="shell view" id="view-level" style="display:none">
+    <div class="res-level">
+      <div class="ln" id="resLv"></div>
+      <div class="res-pattern">本关暗面：<span class="pt" id="resPat"></span></div>
+      <div class="res-reading" id="resRead"></div>
+    </div>
+    <button class="btn-next" id="btnNext">下一关</button>
+    <button class="btn-ghost" id="btnBackLevel">← 返回上一题重选</button>
+  </div>
+
+  <div class="shell view" id="view-report" style="display:none">
+    <h2 class="report-title">人性十道题 · 你的剖面</h2>
+    <p class="report-sub">十个剖面，照出你十种不敢开灯的模样。</p>
+    <div class="sec">
+      <div class="sec-h">十道剖面</div>
+      <div class="radar-card">
+        <div id="reportRadar"></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">深读</div>
+      <div class="hot-card" id="reportHot"></div>
+      <div class="sub-h">爱情三线</div>
+      <div class="love-card" id="reportLove"></div>
+    </div>
+    <p class="disc">本测试是自我探索工具，不是临床诊断量表，不替代专业心理评估。若你长期被情绪或关系困扰，请寻求专业心理支持。</p>
+    <button class="btn-next btn-restart" id="btnRestart">重新测一遍</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ============================================================
+   数据：10 关 × 6 题 = 60 题。每题 4 个选项，p 映射到本关模式 0-3。
+   reads = 关卡反馈短解；deep = 报告长解（更全面、更分析）。
+   ============================================================ */
+const LEVELS = [
+  {
+    name:'心动', sub:'你被什么点燃，就缺什么', patterns:['猎手','觅药者','标价者','回音壁'],
+    reads:['你只对抓不住的上头，到手就索然无味。你追的从来不是人，是那个「我赢了」的瞬间。','你把「对我好」当成药，找一个人替你止童年的渴。可药会耐药，你只会越要越多。','你心动的不是 Ta，是 Ta 身上的价签。你爱的是一面镜子，镜子里的你配得上更好，也更孤独。','你要的是被理解。可真有人懂你的那一刻，你反而怕了，怕 Ta 看透之后转身就走。'],
+    deep:['你只对抓不住的上头，到手就索然无味。你追的从来不是人，是那个「我赢了」的瞬间。猎物一旦回应，你的热度就开始倒计时——你爱的是追逐本身，不是那个被你追到的人。你把心动活成了一场狩猎，赢了就散场，所以你的感情总在最高处坠落。','你把「对我好」当成药，找一个人替你止童年的渴。可药会耐药，你只会越要越多。谁对你越好，你越戒不掉，直到对方给不起，你才开始恨。你不是在爱一个人，你是在找一间不会关灯的病房。','你心动的不是 Ta，是 Ta 身上的价签。你爱的是一面镜子，镜子里的你配得上更好，也更孤独。你怕的不是爱错人，是爱一个让自己掉价的人。可你把爱情活成了一场交易，就永远买不到「非你不可」。','你要的是被理解。可真有人懂你的那一刻，你反而怕了，怕 Ta 看透之后转身就走。你一边渴望回声，一边在对方靠近时后退。你的心动必须隔着一点距离才安全——太近了，你就开始准备失去。'],
+    qs:[
+      {q:'朋友介绍了一个人，条件很好，聊得也礼貌。三周后 Ta 明确说喜欢你，你发现自己的心：',o:[{t:'毫无波澜',p:0},{t:'被坚定选择，心里那盏灯亮了',p:1},{t:'先核对一下：Ta 的条件，配不配得上我',p:2},{t:'在等一个瞬间：Ta 是不是真听懂了我',p:3}]},
+      {q:'聚会上，有个人让你一直忍不住看过去。你发现吸引你的，是 Ta 的：',o:[{t:'读不懂的那层雾',p:0},{t:'对谁都好的温柔，包括我',p:1},{t:'举手投足间的光环',p:2},{t:'聊到某件事时，眼睛里的光',p:3}]},
+      {q:'一段感情开始前，你最容易被哪种人先打动：',o:[{t:'让我患得患失、猜不透的人',p:0},{t:'无条件站我这边的人',p:1},{t:'方方面面都拿得出手的人',p:2},{t:'一句话就接住我情绪的人',p:3}]},
+      {q:'Ta 在你面前提到前任，说「Ta 其实挺有意思的」。你心里最诚实的声音是：',o:[{t:'哦？那我就更有意思',p:0},{t:'有点慌：Ta 是不是还想着前任，我是不是不够好',p:1},{t:'前任什么条件？我比不比得上',p:2},{t:'Ta 说这话时的表情是怀念还是释怀',p:3}]},
+      {q:'Ta 认真地说「你很重要」。你发现你更想听到的，其实是：',o:[{t:'「我离不开你」',p:0},{t:'「我会一直对你好」',p:1},{t:'「你是我带得出手的人」',p:2},{t:'「我懂你为什么那样」',p:3}]},
+      {q:'如果必须诚实，你心动那一刻，你想得到的是：',o:[{t:'Ta 本身',p:0},{t:'被 Ta 爱着的感觉',p:1},{t:'一个更完整、更配得上 Ta 的自己',p:2},{t:'一个真正懂我的回声',p:3}]}
+    ]
+  },
+  {
+    name:'价值', sub:'你的价值挂在谁手里，谁就能给你定价', patterns:['证明狂','附庸者','拐杖人','孤岛'],
+    reads:['你把价值挂在结果上，赢了才配呼吸。可你有没有想过：如果哪天你输了，你还活着吗？','你靠被爱确认存在。可你的价值，不该由别人「选不选你」来定价。你已经把自己典当出去了。','你用付出换位置，把自己活成别人的拐杖。可拐杖用完了就会被放下，没有人会抱着拐杖睡觉。','你离答案最近，只差真信自己。但别把「不指望别人」当成自爱，那只是另一种不敢要。'],
+    deep:['你把价值挂在结果上，赢了才配呼吸。可你有没有想过：如果哪天你输了，你还活着吗？你的每一次努力都像在交作业，老师永远不给你满分。你活成了自己的审判官，判词永远是「还不够」。','你靠被爱确认存在。可你的价值，不该由别人「选不选你」来定价。你已经把自己典当出去了。对方一个冷淡的眼神就能让你贬值，一句夸奖又能让你满血复活——你的股价，从不在自己手里。','你用付出换位置，把自己活成别人的拐杖。可拐杖用完了就会被放下，没有人会抱着拐杖睡觉。你被需要时的价值感有多强，被不需要时的坠落就有多深。你怕的不是没人爱你，是没人需要你。','你离答案最近，只差真信自己。但别把「不指望别人」当成自爱，那只是另一种不敢要。你习惯一个人扛，以为独立就是安全。可你越独立，越没人知道你也想要被接住——你活成了一座没有码头的岛。'],
+    qs:[
+      {q:'朋友升职，发来消息。你回复完「恭喜」，放下手机那一刻：',o:[{t:'心里自动开始对比自己这几年',p:0},{t:'真心为 Ta 高兴，然后继续过我自己的',p:1},{t:'有点焦虑，觉得自己被落下了',p:2},{t:'无感，别人的人生与我无关',p:3}]},
+      {q:'你人生中「最有价值」的时刻，更接近：',o:[{t:'做成了一件很牛的事',p:0},{t:'被一个重要的人坚定选择',p:1},{t:'被很多人需要和依赖',p:2},{t:'独自完成了一次自我和解',p:3}]},
+      {q:'如果明天开始，没有人给你任何反馈。你会：',o:[{t:'慌，不知道自己做得好不好',p:0},{t:'反而轻松，终于不用演了',p:1},{t:'迷茫，不知道自己还重不重要',p:2},{t:'照常生活，我做这些不是为了别人',p:3}]},
+      {q:'你在感情里最想从对方那里得到的是：',o:[{t:'认可',p:0},{t:'偏爱',p:1},{t:'需要',p:2},{t:'尊重',p:3}]},
+      {q:'深夜拷问自己「我活着的价值是什么」时，你浮现的是：',o:[{t:'成就还不够，还要更用力',p:0},{t:'有人爱着我，这就算有价值',p:1},{t:'还有很多人等着我照顾',p:2},{t:'我活着本身就有价值，不需要理由',p:3}]},
+      {q:'如果全世界给你发一个最终评价，你最怕那行字是：',o:[{t:'「不过如此」',p:0},{t:'「没人真心爱过你」',p:1},{t:'「你谁也不是」',p:2},{t:'「你从来没有为自己活过」',p:3}]}
+    ]
+  },
+  {
+    name:'依恋', sub:'你攥得越紧的爱，漏得越快', patterns:['乞爱者','自若者','绝缘体','拉锯者'],
+    reads:['你不是在爱，你是在乞讨确定。Ta 晚回一秒消息，你就觉得整个关系要塌。你缺的不是爱，是地基。','你能靠近也能放手，这是很多人的奢望。但小心：你的「不需要」别变成另一种不敢要。','你用距离自保，把「我需要你」当成耻辱。你以为你不需要爱，其实你是不敢确认自己配得上。','靠近想逃，逃了想回。你不是矛盾，你是两套程序在抢同一个身体，怕被吞没，又怕被遗弃。'],
+    deep:['你不是在爱，你是在乞讨确定。Ta 晚回一秒消息，你就觉得整个关系要塌。你缺的不是爱，是地基。你把安全感押在另一个人的回音上，可回音永远不会比你的心跳快。你越用力抓紧，越把对方推远——爱变成了你一个人的求救。','你能靠近也能放手，这是很多人的奢望。但小心：你的「不需要」别变成另一种不敢要。你看起来最安全，其实最会提前离场。不是你不依赖，是你太怕依赖落空，所以先把自己训练成不需要。你赢过所有分别，也错过了所有深入。','你用距离自保，把「我需要你」当成耻辱。你以为你不需要爱，其实你是不敢确认自己配得上。一旦有人真的靠近，你的第一反应是降温、是逃、是把话说绝。你把自己的心装进绝缘层里，久了，连你自己都碰不到它。爱对你来说不是温暖，是危险品。','靠近想逃，逃了想回。你不是矛盾，你是两套程序在抢同一个身体，怕被吞没，又怕被遗弃。你在亲密和自由之间反复拉扯，每次 Ta 靠近你就推，每次 Ta 走远你又追。你不是不想要爱，是你不知道爱能不能同时容纳你们两个人。'],
+    qs:[
+      {q:'凌晨一点，你给恋爱中的人发了一条「睡了吗」，二十分钟没有回音。你在黑暗里盯着屏幕：',o:[{t:'心跳成鼓点，脑子里在放一部灾难片',p:0},{t:'失落一瞬，但知道 Ta 醒了会回',p:1},{t:'正好，我也不必秒回谁',p:2},{t:'想追问，又怕显得太需要，最后什么都没发',p:3}]},
+      {q:'Ta 出差，说落地给你发消息。落地两小时，对话框安静。你：',o:[{t:'反复点开手机，想发点什么试探水温',p:0},{t:'闪过一念，随即放下',p:1},{t:'正好清静，忙自己的事',p:2},{t:'心里开始给这段关系打分，然后决定先冷 Ta',p:3}]},
+      {q:'深夜，Ta 的手机屏幕亮起，弹出一个你不太认识的名字的消息。Ta 若无其事地按灭。你：',o:[{t:'记下那个名字，夜里翻遍 Ta 的社交账号',p:0},{t:'心里咯噔一下，但选择直接问，而不是猜',p:1},{t:'无所谓',p:2},{t:'假装没看见，但一根刺已经扎进去了',p:3}]},
+      {q:'Ta 送你到家门口，认真地说「我真的喜欢你」。你的第一反应：',o:[{t:'心里先冷半拍：这句话，今天对几个人说过',p:0},{t:'半信半疑地收下了，但会记着，等它兑现',p:1},{t:'胸口发紧，不知道怎么接这么重的话',p:2},{t:'嘴上说我也是，心里在盘算以后 Ta 变了，我怎么抽身',p:3}]},
+      {q:'假如你的爱人生命只剩最后三个月，你会：',o:[{t:'辞掉一切，一分钟都不离开',p:0},{t:'陪在身边，也允许自己崩溃，不演',p:1},{t:'照常上班生活，把照顾 Ta 当任务，不碰情绪',p:2},{t:'想靠近又本能地推开',p:3}]},
+      {q:'如果明天是你生命的最后一天，你希望 Ta 怎样陪你：',o:[{t:'寸步不离，跟我说很多很多话',p:0},{t:'像平常一样陪着我，不煽情不告别',p:1},{t:'留我一个人，安静地走',p:2},{t:'Ta 走开一点，我才能假装这不是最后一天',p:3}]}
+    ]
+  },
+  {
+    name:'冲突', sub:'你伤人的方式，是你小时候学会求救的方式', patterns:['冰刃','獠牙','跪者','逃兵'],
+    reads:['你的沉默不是平静，是刑具。你赢下每一场冷战，也亲手把门焊死。','你反击，是因为你从来没被好好接住过。可你把 Ta 扎出血的那一刻，你也把 Ta 推远了。','你怕失去胜过怕痛，所以先跪。可跪着的人，永远得不到平等的爱，只会得到怜悯和轻视。','你把吵架当判决书，一冲突就想撤。可你逃掉的不是战争，是这辈子学会亲密的唯一机会。'],
+    deep:['你的沉默不是平静，是刑具。你赢下每一场冷战，也亲手把门焊死。你不说、不闹、不回应，用低温让对方自己崩溃。可你赢了架，输了人——等 Ta 心灰意冷的时候，你的沉默才第一次失去杀伤力。','你反击，是因为你从来没被好好接住过。可你把 Ta 扎出血的那一刻，你也把 Ta 推远了。你专挑最痛的地方下手，因为那是你学会的语言。你嘴上在赢，心里在等一个人能在你亮獠牙时还不走。但你先扎了人，别人怎么敢留。','你怕失去胜过怕痛，所以先跪。可跪着的人，永远得不到平等的爱，只会得到怜悯和轻视。你习惯用认错换太平，可每一次「都是我的错」都在给关系埋雷。你忍得越深，爆得越狠——你不是脾气好，你是在记账。','你把吵架当判决书，一冲突就想撤。可你逃掉的不是战争，是这辈子学会亲密的唯一机会。你躲进沉默、躲进房间、躲进「冷静一下」，以为离场就能止血。可你每次逃跑，都在告诉对方：你在我心里，不值得一场争吵。'],
+    qs:[
+      {q:'你们因为小事吵起来，Ta 提高了音量。你的本能是：',o:[{t:'声音降下来，一个字都不想再说',p:0},{t:'立刻反攻，把 Ta 以前做错的事也翻出来',p:1},{t:'先认错稳住场面：「都是我的错，行了吧」',p:2},{t:'想逃',p:3}]},
+      {q:'吵架后的第一晚，你们背对背躺着。你心里想的是：',o:[{t:'谁先开口谁就输了，我输不起',p:0},{t:'还在复盘 Ta 那句话，越复盘越恨',p:1},{t:'要不要先装没发生，主动破冰',p:2},{t:'已经开始想：怎么冷静几天',p:3}]},
+      {q:'Ta 说了句很伤人的话，你发现你嘴上说的是：',o:[{t:'「行，那以后都别说了」',p:0},{t:'「你凭什么说我？你上次那样我说你了吗」',p:1},{t:'「好，是我不对，都是我的问题，你别生气」',p:2},{t:'「先不聊了，我今天不想谈」',p:3}]},
+      {q:'吵架吵到一半，Ta 哭了。你心里最接近的是：',o:[{t:'心里也难受，但脸上一点不给，沉默到底',p:0},{t:'想抱 Ta，但嘴比心硬，继续扎',p:1},{t:'心疼得不行，立刻去哄，怕 Ta 不要我了',p:2},{t:'看见 Ta 哭，我更想逃',p:3}]},
+      {q:'你忍了很久的事终于爆发，爆发方式是：',o:[{t:'一次性倒出所有旧账，然后陷入长久的沉默',p:0},{t:'专挑最扎心的话说，让 Ta 也尝尝',p:1},{t:'哭着说「我一直在忍你」，然后问「你到底爱不爱我」',p:2},{t:'说「我们冷静一段时间」，然后消失几天',p:3}]},
+      {q:'和好之后，你通常是：',o:[{t:'表面没事，但心里记了一本账',p:0},{t:'气没消，但不再说，等下次一起算',p:1},{t:'更怕关系有裂痕，会加倍对 Ta 好',p:2},{t:'觉得迟早还会吵，心里开始准备退路',p:3}]},
+      {q:'你提分手，Ta 跪下来求你，说别走。你心里最接近的是：',o:[{t:'更烦了，冷着脸让 Ta 起来，但心已经凉透',p:0},{t:'妈呀，居然这么喜欢我，好爽，爽死了',p:1},{t:'心一下软了，跟着难受，多半就留下了',p:2},{t:'这一幕太窒息，我更想逃了',p:3}]}
+    ]
+  },
+  {
+    name:'恐惧', sub:'你怕什么，就会亲手造什么', patterns:['匮乏症','空屋症','掉队症','笼中症'],
+    reads:['你怕没钱，所以拼命攒，攒到不敢花、不敢停。你不是在为生活奋斗，你是在为恐惧打工。','你怕没人，所以委屈求全、过度付出。可你连自己都陪不了，别人给的陪伴永远是借来的。','你怕平庸，所以永远在跑。可你甩不掉那个说「还不够」的声音，因为它是你自己录的。','你怕被绑住，所以随时准备逃。可你逃掉的不是牢笼，是任何可能让你留下的东西。'],
+    deep:['你怕没钱，所以拼命攒，攒到不敢花、不敢停。你不是在为生活奋斗，你是在为恐惧打工。你的安全感像漏水的桶，填多少都不满。你赚得越多越怕失去，钱对你来说不是自由，是一层随时会破的壳。','你怕没人，所以委屈求全、过度付出。可你连自己都陪不了，别人给的陪伴永远是借来的。你拼命往关系里塞自己，生怕空下来就没人要。可你越怕被丢下，越容易选错人、抓太紧，最后果然被丢下——你亲手验证了自己的预言。','你怕平庸，所以永远在跑。可你甩不掉那个说「还不够」的声音，因为它是你自己录的。你不敢停下来，因为一停，那个声音就会追上你。你把人生活成了一场没有终点的赛跑，跑赢所有人，却不知道自己要去哪。','你怕被绑住，所以随时准备逃。可你逃掉的不是牢笼，是任何可能让你留下的东西。你对承诺过敏，一感觉被困就想挣脱。你以为自由是没人管你，其实自由是你敢留下而不怕被吞没——你只是把怕关在了笼子里。'],
+    qs:[
+      {q:'深夜你常被一种感觉惊醒，它更接近：',o:[{t:'没钱的恐慌，未来没有兜底',p:0},{t:'睁眼到天亮也没人知道的孤独',p:1},{t:'一事无成的焦虑，时间在漏',p:2},{t:'被什么东西困住的窒息感',p:3}]},
+      {q:'你做了一个大胆的决定，接下来几天你：',o:[{t:'反复算账，确认兜里的钱撑得住',p:0},{t:'想找人说，又怕打扰别人',p:1},{t:'列了满满的计划，怕走错一步',p:2},{t:'隐隐后悔，又想跑了',p:3}]},
+      {q:'有人说你「想太多」。你知道你想得多，是因为：',o:[{t:'不想再回到没钱的境地',p:0},{t:'不想一个人面对那些事',p:1},{t:'不想让别人失望',p:2},{t:'不想被任何事绑住',p:3}]},
+      {q:'在关系里，你最深处的害怕其实是：',o:[{t:'Ta 发现我其实没那么强',p:0},{t:'Ta 走了以后，我连说话的人都没有',p:1},{t:'我付出全部，最后还是不被选择',p:2},{t:'这段关系把我困住，我不再是我',p:3}]},
+      {q:'深夜你盯着天花板，想起那个反复做过的噩梦，场景通常是：',o:[{t:'钱包空了，账单堆成山，我付不起',p:0},{t:'全世界只剩我一个人，喊不出声',p:1},{t:'所有人都在往前走，只有我被留在原地',p:2},{t:'我被困在一个没有门的房间里，越敲越安静',p:3}]},
+      {q:'如果恐惧是一间房间，你常常把自己关在：',o:[{t:'缺钱的房间',p:0},{t:'没人的房间',p:1},{t:'不够好的房间',p:2},{t:'没有门的房间',p:3}]}
+    ]
+  },
+  {
+    name:'控制', sub:'你控制得了所有人，除了失控的自己', patterns:['执鞭者','随波者','暗操手','焚桥者'],
+    reads:['你用计划和确定感造了一座堡垒。可你在里面住太久了，忘了外面的风其实吹不死你。','你活得松弛，可松弛到没有锚。不计划如果是逃避，那它和过度计划一样累。','你嘴上说随缘，心里全在盘。你把自己累成操盘手，所有人却以为你真的不在乎。','你处理失控的方式是「不要了」。可你把桥烧了，对面的人也过不来了。你烧掉的从来不只是麻烦。'],
+    deep:['你用计划和确定感造了一座堡垒。可你在里面住太久了，忘了外面的风其实吹不死你。你把一切排进表格，以为掌控了时间就掌控了命运。可你防住了所有意外，也防住了所有惊喜——你的生活越来越稳，也越来越空。','你活得松弛，可松弛到没有锚。不计划如果是逃避，那它和过度计划一样累。你说「随便、都行、看缘分」，其实是不敢承担选择的代价。你把方向盘交给别人和运气，可漂到哪算哪的人生，最后谁都不怪，只能怪水。','你嘴上说随缘，心里全在盘。你把自己累成操盘手，所有人却以为你真的不在乎。你不直接说，你布局：留话口、放线索、制造巧合。你要的是别人主动走到你设计的路上，还要以为是自己的决定——掌控到连掌控本身都不被发现。','你处理失控的方式是「不要了」。可你把桥烧了，对面的人也过不来了。你烧掉的从来不只是麻烦。你习惯在关系变质之前先下手斩断，在别人走之前先走。你用决绝保护自己，可你也亲手烧掉了所有回头的路——你赢得干脆，输得也彻底。'],
+    qs:[
+      {q:'约好周五见面，周四晚上 Ta 还没定安排。你：',o:[{t:'已经开始排 Plan A / B / C，心才落地',p:0},{t:'无所谓，到那天再说',p:1},{t:'嘴上不问，心里给 Ta 记了一笔',p:2},{t:'不去了，最烦没有安排',p:3}]},
+      {q:'你的手机丢了，三天找不回来。你发现你真正受不了的是：',o:[{t:'所有计划全乱了，我像被剥了一层皮',p:0},{t:'正好，与世隔绝三天也不错',p:1},{t:'别人联系不到我，会不会觉得我出事了',p:2},{t:'直接买新手机，旧号码不要了',p:3}]},
+      {q:'Ta 说想裸辞去旅行三个月。你的第一反应：',o:[{t:'开始算：存款够不够，回来怎么找工作',p:0},{t:'挺好的，我也有点想',p:1},{t:'嘴上支持，但接下来几天都在想这件事',p:2},{t:'心里一沉：Ta 要失控了，这不是我认识的那个人',p:3}]},
+      {q:'计划被打乱时，你的真实感受：',o:[{t:'烦躁，一整天都不顺',p:0},{t:'行，那就换个玩法',p:1},{t:'表面接受，内心重新布阵',p:2},{t:'本来就没计划，谈不上打乱',p:3}]},
+      {q:'对方很久没回消息，你能做的最大「控制」是：',o:[{t:'反复点开对话框，但一个字都不发',p:0},{t:'关掉通知，去做自己的事',p:1},{t:'心里在给 Ta 的「回消息速度」打分',p:2},{t:'直接删掉对话框，眼不见为净',p:3}]},
+      {q:'如果失控是一场暴风雨，你是：',o:[{t:'拼命找伞的人',p:0},{t:'站在雨里当没事的人',p:1},{t:'提前看天气、暗中囤物资的人',p:2},{t:'直接把船凿了的人',p:3}]}
+    ]
+  },
+  {
+    name:'面具', sub:'你演给谁看，就死在谁手里', patterns:['戏子','人设奴','提线人','局外人'],
+    reads:['你演得越好，越没人能碰到你。你怕的不是被看穿，是被看穿之后，没人愿意留下。','人设替你活了太久，你连照镜子都带着滤镜。最危险的从来不是假，是你开始相信假的就是真的。','你把所有人变成观众，把自己变成导演。剧场很安全，可散场之后，台上只剩你一个人谢幕。','你不演，但你也不在场。你早就分不清真假了。而这，恰恰是你最大的假。'],
+    deep:['你演得越好，越没人能碰到你。你怕的不是被看穿，是被看穿之后，没人愿意留下。你把「体面」练成了本能，把「懂事」穿成了皮肤。可掌声是给角色的，散场之后，没有人认识卸妆的你——你连自己都快不认识了。','人设替你活了太久，你连照镜子都带着滤镜。最危险的从来不是假，是你开始相信假的就是真的。你维护的不是你自己，是一个「你应该成为的样子」。为了不塌人设，你不敢喊累、不敢拒绝、不敢让别人失望——你活成了别人满意的标本。','你把所有人变成观众，把自己变成导演。剧场很安全，可散场之后，台上只剩你一个人谢幕。你控制每一幕剧情、每一句台词，连崩溃都要挑时间。可你导演得越成功，越没人知道真实的你在哪——你的剧本里，从来没给自己留过台词。','你不演，但你也不在场。你早就分不清真假了。而这，恰恰是你最大的假。你对所有人的热情都隔着一层玻璃，礼貌、配合、像真的。可你自己知道：你从没真正进入任何一场戏。你不是不演，你是把自己也骗过了——连假装在意都懒得假装。'],
+    qs:[
+      {q:'周三晚上十一点，地铁末班车，你刚结束一场疲惫的应酬。手机亮起，一个不太熟的人发来：「今天看你状态真好，永远这么有精力。」你盯着屏幕，心里最接近的是：',o:[{t:'累得快散架了，但我不敢让人看见',p:0},{t:'被看见的感觉不错，这个版本的我我也喜欢',p:1},{t:'熟练地接住话头，维持印象是我的本能',p:2},{t:'这节车厢里没人认识我，但我也认不出我自己',p:3}]},
+      {q:'家庭聚会，亲戚们夸你「懂事、省心、从不让人操心」。你坐在沙发上剥橘子，那一刻你心里更接近：',o:[{t:'懂事是我交的学费，他们只看到成绩单',p:0},{t:'我确实懂事，这是我的勋章',p:1},{t:'这个位置是我守着的，塌了我第一个慌',p:2},{t:'他们说的人不是我，我懒得纠正',p:3}]},
+      {q:'你深夜发了一条情绪动态，五分钟后删掉了。这个动作背后，你最认同的是：',o:[{t:'让人看见我的裂缝，等于把刀递给别人',p:0},{t:'发出去那一秒的痛快，就够了',p:1},{t:'朋友圈是剧场，观众看到哪一幕由我排',p:2},{t:'演和真，我早就分不清了',p:3}]},
+      {q:'认识十年的朋友说：「我发现我其实不太了解你。」你第一反应是：',o:[{t:'松了口气：终于有人没被我的表演骗过去',p:0},{t:'有点慌：原来我演得还不够好',p:1},{t:'边界是我画的，谁都不许跨过去',p:2},{t:'无所谓，我也懒得让谁真的懂我',p:3}]},
+      {q:'你被当众表扬，同事起哄让你请客。回工位的路上，你真实的感受是：',o:[{t:'光环是租来的，租金是命',p:0},{t:'值得，这是我挣来的',p:1},{t:'一切按剧本走，我早算到了',p:2},{t:'掌声是他们的，我隔着一层玻璃',p:3}]},
+      {q:'深夜，你翻看过去一年的照片。你发现每一张笑脸背后：',o:[{t:'都压着一句没说出口的累',p:0},{t:'都是我真心笑过的瞬间',p:1},{t:'都是导演喊卡前的镜头',p:2},{t:'照片里的人，我不太认识',p:3}]},
+      {q:'如果把人生当成一场戏，你觉得自己在自己的剧本里是：',o:[{t:'主角，剧本为我而写',p:0},{t:'配角，别人的故事里才有我的位置',p:1},{t:'导演，所有人按我的安排走',p:2},{t:'旁观者，戏演到哪，我都在场外',p:3}]}
+    ]
+  },
+  {
+    name:'孤独', sub:'孤独不是身边没人，是心里没人', patterns:['等光者','独居兽','惯犯','人群孤魂'],
+    reads:['你在等人来点亮你，可灯一直在你手里，你攥得手心全是汗也没打开。','你不怕独处，这是礼物。可别让它长成铠甲：你不出去，别人也进不来。','你习惯了没人，习惯到忘了伸手这个动作。孤独不是你选的，是你认的，认到它成了你的默认。','你在最热闹的地方最孤单。你不是缺人，是缺一个敢在人群里说真话的你。'],
+    deep:['你在等人来点亮你，可灯一直在你手里，你攥得手心全是汗也没打开。你把孤独解释成「还没等到对的人」，其实是自己不敢先亮。你怕主动伸出手会落空，所以选择永远等——等一个不会来的人，比被拒绝安全，也比被爱更让人安心。','你不怕独处，这是礼物。可别让它长成铠甲：你不出去，别人也进不来。你把独处练成了舒适区，把「不需要人」当成了骄傲。可你越来越难被打扰，也越来越难被打动——你的世界很安静，安静到忘了热闹是什么味道。','你习惯了没人，习惯到忘了伸手这个动作。孤独不是你选的，是你认的，认到它成了你的默认。你已经不觉得疼了，可那不是好了，是麻木了。你把「没人会来」当成事实去活，于是果然没人来——你是自己孤独的第一证人。','你在最热闹的地方最孤单。你不是缺人，是缺一个敢在人群里说真话的你。你笑着碰杯、接梗、寒暄，每句话都对，可没有一句是真的。你在人群里扮演「有人爱」，散场后回到车里，连歌都听不进去——你怕的不是孤独，是孤独被人看见。'],
+    qs:[
+      {q:'周六下午，手机安静地躺着，没有人找你。你：',o:[{t:'有点失落，但还是拿起手机刷了起来',p:0},{t:'享受这份安静，正好做点自己的事',p:1},{t:'习惯了，这种日子很多',p:2},{t:'心里空空的，明明昨天聚会还挺热闹',p:3}]},
+      {q:'你更怕的是：',o:[{t:'一个人吃饭',p:0},{t:'一群人吃饭，但没人真的在听你说话',p:1},{t:'想找人聊天，翻遍通讯录找不到一个',p:2},{t:'连想独处都做不到',p:3}]},
+      {q:'深夜你发了一条情绪动态又删掉，是因为：',o:[{t:'怕没人理，更尴尬',p:0},{t:'不想让人觉得我矫情',p:1},{t:'反正发了也没人真的懂',p:2},{t:'发出去那一刻，孤独已经缓解了一半',p:3}]},
+      {q:'你上一次感到「被完全理解」：',o:[{t:'是很久以前的事了，记不清',p:0},{t:'是某次和某个人的深夜对话',p:1},{t:'我已经不期待被理解了',p:2},{t:'从来没有过',p:3}]},
+      {q:'如果孤独是一间屋子，你通常：',o:[{t:'站在窗口往外看，等人来',p:0},{t:'在屋里点灯，自己待着挺好',p:1},{t:'门开着，但不确定谁会进来',p:2},{t:'觉得自己一直就在这屋子里，从没出去过',p:3}]},
+      {q:'深夜，你在人群的聚会上起身去了阳台。站在阳台上那一刻，你真正在想的是：',o:[{t:'会有人发现我走了吗？会追出来问一句吗',p:0},{t:'终于安静了，外面的夜色比屋里好',p:1},{t:'反正我在不在，他们都一样热闹',p:2},{t:'我又躲出来了，我总在最热闹的时候想消失',p:3}]}
+    ]
+  },
+  {
+    name:'意义', sub:'你人生的导航，是你最深的恐惧', patterns:['仓鼠','寄居蟹','赶路人','徘徊者'],
+    reads:['你用钱衡量安全，可钱只会越花越怕。你怕的不是穷，是穷背后那个没人兜底的自己。','你把意义寄存在别人身上。那个人一旦走了，你的世界会整个塌掉。你把生命押在会走的东西上了。','你怕平庸，所以不停赶路。可你有没有问过自己：到哪一站，才算活过？','你的迷茫不是没方向，是不敢认那个方向。你知道答案，只是不肯付代价。'],
+    deep:['你用钱衡量安全，可钱只会越花越怕。你怕的不是穷，是穷背后那个没人兜底的自己。你拼命跑，以为攒够一个数字就能停下来，可数字永远在涨，你永远在跑。你把自己的命活成了存款上的位数，可位数再多，也没人替你睡一个好觉。','你把意义寄存在别人身上。那个人一旦走了，你的世界会整个塌掉。你把生命的重量压在「让在乎的人过得好」上，可你从来没问过：如果你在乎的人不在了，你还为谁活？你不是无私，你是不敢把意义放回自己手里——那太孤独了。','你怕平庸，所以不停赶路。可你有没有问过自己：到哪一站，才算活过？你把人生过成了清单：下一个目标、下一座城、下一段关系。可你永远在「准备生活」，而不是在生活。你怕的不是没有成就，是停下来之后，发现自己不知道要去哪。','你的迷茫不是没方向，是不敢认那个方向。你知道答案，只是不肯付代价。你在选项之间来回横跳，用「再想想」拖延选择，因为选了就要负责，负责就可能错。你不是没有答案，你是害怕答案落地之后，你的人生就再没有借口了。'],
+    qs:[
+      {q:'如果现在有人告诉你，你的一生已经被写好，结局注定。你的第一反应是：',o:[{t:'那我还得抓紧攒钱，给结局多留点后路',p:0},{t:'那我更要对重要的人好，让他们都好好的',p:1},{t:'那我更要拼一把，把它改写',p:2},{t:'松了口气，原来不用我选',p:3}]},
+      {q:'你努力的原因，最接近：',o:[{t:'不想再为钱发愁',p:0},{t:'想让在乎的人过得好',p:1},{t:'想证明自己可以',p:2},{t:'想对得起自己',p:3}]},
+      {q:'如果现在有一千万，你的人生会：',o:[{t:'立刻自由，去做想做的事',p:0},{t:'先安顿家人，再好好生活',p:1},{t:'继续奋斗，只是更有底气',p:2},{t:'反而迷茫，我从来没想过自己想要什么',p:3}]},
+      {q:'你常觉得时间紧迫，是因为：',o:[{t:'钱还没攒够，不敢停',p:0},{t:'重要的人还在等',p:1},{t:'想要的成就还没拿到',p:2},{t:'不知道自己到底想要什么，所以更慌',p:3}]},
+      {q:'你的人生导航，目前指向：',o:[{t:'更高的收入',p:0},{t:'更深的亲密',p:1},{t:'更大的成就',p:2},{t:'更清晰的自知',p:3}]},
+      {q:'假如生命只剩一年，你最想做的第一件事是：',o:[{t:'把财务安排妥当，不留烂摊子',p:0},{t:'和最爱的人好好待着',p:1},{t:'完成那件一直想做没做的事',p:2},{t:'一个人去安静的地方，想明白',p:3}]}
+    ]
+  },
+  {
+    name:'阴影', sub:'你最想藏起来的那一面，才是你', patterns:['虚荣','冷漠','掌控','自私'],
+    reads:['你怕显得不行，所以死撑。承认「我在意」不丢人，死撑才真的会拖垮你。','你用不在乎自保，可不在乎会上瘾。它帮你躲过了痛，也躲过了所有真的东西。','你怕失控，所以攥紧。可你攥得越紧，真正重要的东西漏得越快。','你把「先顾自己」当罪，于是把它藏起来。可你最深的暗面不是自私，是连自己都不肯认那份私心。你演得连自己都骗了。'],
+    deep:['你怕显得不行，所以死撑。承认「我在意」不丢人，死撑才真的会拖垮你。你花力气维护的不是面子，是别人眼里「你很好」的幻觉。可幻觉的租金越来越高：你要一直赢、一直好看、一直被羡慕——你活成了自己的展览品，累到不敢喊停。','你用不在乎自保，可不在乎会上瘾。它帮你躲过了痛，也躲过了所有真的东西。你把「无所谓」当护身符，久了，你真的什么都无所谓了。你赢了所有情绪，也输掉了所有温度——你不是冷，你是怕烫，所以先冻住自己。','你怕失控，所以攥紧。可你攥得越紧，真正重要的东西漏得越快。你把「说了算」当安全感，关系里、工作里、人群里都要有你的手印。可你越想握住，别人越想挣脱——你管理好了一切，唯独没管理好「为什么大家都想离开」。','你把「先顾自己」当罪，于是把它藏起来。可你最深的暗面不是自私，是连自己都不肯认那份私心。你嘴上大度、行为付出，心里却一直在记账：我给多了、我亏了、我该撤了。你不是不善良，你是太怕吃亏，怕到把善良都演成了投资。'],
+    qs:[
+      {q:'看到曾经不如你的人过得比你好，你内心最诚实的声音：',o:[{t:'有点酸，但绝不让人看出来',p:0},{t:'无感，别人怎样与我无关',p:1},{t:'不服，我会证明我更强',p:2},{t:'有点不爽，但先顾好自己要紧',p:3}]},
+      {q:'你最不愿承认自己身上有的一种特质是：',o:[{t:'虚荣',p:0},{t:'冷漠',p:1},{t:'掌控',p:2},{t:'自私',p:3}]},
+      {q:'你对朋友说「没事，你来吧」，但其实你更想说的是：',o:[{t:'「你最好知道，我是放下自己的事来陪你的」',p:0},{t:'「其实你来不来，我都无所谓」',p:1},{t:'「我也有自己的安排，别总临时起意」',p:2},{t:'「我今天其实不想被打扰」',p:3}]},
+      {q:'如果有一笔钱，拿它就必须坑一个无辜的人，且永远不会被发现。你：',o:[{t:'不碰',p:0},{t:'碰',p:1},{t:'碰，但要把它洗得干干净净、安排得滴水不漏',p:2},{t:'会心动到失眠，最后多半还是碰了',p:3}]},
+      {q:'深夜诚实回答：Ta 因你而痛苦时，你心里有没有过一丝隐秘的爽，像终于攥住了什么东西：',o:[{t:'有，那一刻我确定自己很重要',p:0},{t:'有，但我很快会抽离',p:1},{t:'有，看到 Ta 失控我反而安心',p:2},{t:'有，但只允许它存在一秒，过后我会恨那样的自己',p:3}]},
+      {q:'深夜，你最不愿面对的自己的样子是：',o:[{t:'那个为面子硬撑的自己',p:0},{t:'那个对一切懒得在意的自己',p:1},{t:'那个想抓住一切不放的自己',p:2},{t:'那个先顾自己的自己',p:3}]}
+    ]
+  }
+];
+/* ============================================================
+   状态与渲染
+   ============================================================ */
+const state = { idx:0, ans:[], pending:null, view:'cover' };
+const $ = id => document.getElementById(id);
+const TOTAL = LEVELS.reduce((s,l)=>s+l.qs.length,0);
+function startOf(lv){ let s=0; for(let i=0;i<lv;i++) s+=LEVELS[i].qs.length; return s; }
+function levelInfo(li){
+  let s=0;
+  for(let i=0;i<LEVELS.length;i++){
+    const size=LEVELS[i].qs.length;
+    if(li<s+size) return {i,start:s,size};
+    s+=size;
+  }
+  const last=LEVELS.length-1;
+  return {i:last,start:s-LEVELS[last].qs.length,size:LEVELS[last].qs.length};
+}
+
+function showView(name){
+  ['cover','quiz','level','report'].forEach(v=>{
+    const el = $('view-'+v);
+    el.style.display = (v===name)?'block':'none';
+    if(v===name) el.classList.add('on'); else el.classList.remove('on');
+  });
+  state.view = name;
+  window.scrollTo(0,0);
+}
+
+function renderQuiz(){
+  const li = state.idx;
+  const info = levelInfo(li);
+  const lv = info.i;
+  const qi = li - info.start;
+  const level = LEVELS[lv];
+  $('quizLevel').textContent = '第 '+(lv+1)+' 关 · '+level.name;
+  $('quizCount').textContent = (li+1)+' / '+TOTAL;
+  const dots = $('quizDots');
+  dots.innerHTML = '';
+  for(let i=0;i<info.size;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i<qi?' done':(i===qi?' now':''));
+    dots.appendChild(d);
+  }
+  $('quizBar').style.width = (li/60*100)+'%';
+  $('quizStem').textContent = 'Q'+(li+1)+'  '+level.qs[qi].q;
+  const opts = $('quizOpts');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const off = li%4;
+  const order = [0,1,2,3].map(i=>(i+off)%4);
+  state.pending = (state.ans[li]!==undefined) ? state.ans[li] : null;
+  order.forEach((pi,di)=>{
+    const opt = level.qs[qi].o[pi];
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt' + (state.pending===pi ? ' sel' : '');
+    b.innerHTML = '<span class="k">'+letters[di]+'</span><span>'+opt.t+'</span>';
+    b.addEventListener('click',()=>{
+      if(state.locked) return;
+      state.pending = pi;
+      document.querySelectorAll('#quizOpts .opt').forEach(o=>o.classList.remove('sel'));
+      b.classList.add('sel');
+      updateNext();
+    });
+    opts.appendChild(b);
+  });
+  updateNext();
+}
+
+function updateNext(){
+  const btn = $('btnNextQ');
+  const ready = state.pending !== null;
+  btn.disabled = !ready;
+  if(ready) btn.classList.add('ready'); else btn.classList.remove('ready');
+}
+
+function confirmNext(){
+  if(state.locked || state.pending === null) return;
+  state.locked = true;
+  state.ans[state.idx] = state.pending;
+  state.pending = null;
+  state.idx++;
+  if(state.idx >= TOTAL){ renderReport(); showView('report'); }
+  else { const ni = levelInfo(state.idx); if(ni.start===state.idx){ renderLevelResult(ni.i); showView('level'); } else { state.locked = false; renderQuiz(); } }
+  window.scrollTo(0,0);
+}
+
+function goBack(){
+  if(state.idx<=0) return;
+  state.locked = false;
+  state.pending = null;
+  state.idx--;
+  renderQuiz(); showView('quiz');
+}
+
+function topPatterns(li){
+  const lv = LEVELS[li];
+  const cnt = [0,0,0,0];
+  const s = startOf(li);
+  state.ans.slice(s, s+lv.qs.length).forEach(p=>cnt[p]++);
+  const idx = [0,1,2,3].sort((a,b)=>cnt[b]-cnt[a]);
+  return { lv, cnt, dom:idx[0], sec:idx[1], domN:cnt[idx[0]], secN:cnt[idx[1]] };
+}
+
+function renderLevelResult(li){
+  const r = topPatterns(li);
+  $('resLv').textContent = '第 '+(li+1)+' 关 · '+r.lv.name;
+  $('resPat').textContent = r.lv.patterns[r.dom];
+  $('resRead').innerHTML = r.lv.reads[r.dom];
+  $('btnNext').textContent = (state.idx >= TOTAL) ? '查看完整剖面' : '下一关';
+}
+
+function radarSVG(){
+  const n = LEVELS.length, cx = 250, cy = 250, R = 192;
+  const scores = LEVELS.map((lv,i)=>topPatterns(i).domN);
+  const labels = LEVELS.map((lv,i)=>lv.patterns[topPatterns(i).dom]);
+  const rad = i => (-90 + i*360/n)*Math.PI/180;
+  const P = (i,r) => {
+    const a = rad(i);
+    return (cx + r*Math.cos(a)).toFixed(1)+','+(cy + r*Math.sin(a)).toFixed(1);
+  };
+  const ringPts = g => Array.from({length:n},(_,i)=>P(i,R*g/6)).join(' ');
+  let s = '<svg class="radar" viewBox="0 0 500 500" role="img" aria-label="十道剖面图">';
+  for(let g=1;g<=6;g++){
+    s += '<polygon points="'+ringPts(g)+'" fill="none" stroke="rgba(74,66,58,.14)"'+(g===6?' stroke-width="1.6" stroke="rgba(74,66,58,.26)"':'')+'/>';
+  }
+  for(let i=0;i<n;i++){
+    const [x,y] = P(i,R).split(',');
+    s += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'" stroke="rgba(74,66,58,.16)"/>';
+  }
+  s += '<polygon points="'+Array.from({length:n},(_,i)=>P(i,R*scores[i]/6)).join(' ')+'" fill="rgba(192,79,67,.18)" stroke="#B04A3F" stroke-width="2.5" stroke-linejoin="round"/>';
+  for(let i=0;i<n;i++){
+    const [x,y] = P(i,R*scores[i]/6).split(',');
+    s += '<circle cx="'+x+'" cy="'+y+'" r="4.5" fill="#B04A3F"/>';
+  }
+  for(let i=0;i<n;i++){
+    const [x,y] = P(i,R+30).split(',');
+    const top = (i===0), bottom = (i===5);
+    s += '<text x="'+x+'" y="'+y+'" fill="#4A423A" font-size="14" font-weight="700" text-anchor="middle" dy="'+(top?'-5':(bottom?'13':'4'))+'">'+labels[i]+'</text>';
+  }
+  s += '</svg>';
+  return s;
+}
+
+function renderReport(){
+  const ts = LEVELS.map((lv,i)=>({lv,r:topPatterns(i),i}));
+  const m = ts.reduce((a,b)=>(b.r.domN>a.r.domN?b:a), ts[0]);
+  const byName = {};
+  ts.forEach(t=>{ byName[t.lv.name]=t; });
+  const love = [byName['依恋'], byName['心动'], byName['冲突']];
+  const loveLabel = {'依恋':'你靠近爱的方式','心动':'你被点燃的方式','冲突':'你受伤后的样子'};
+  $('reportRadar').innerHTML = radarSVG();
+  $('reportHot').innerHTML = '<div class="hc-t">最扎你的一角</div><div class="hc-p">第'+(m.i+1)+'关 · '+m.lv.name+' · <span class="pt">'+m.lv.patterns[m.r.dom]+'</span></div><p>'+m.lv.deep[m.r.dom]+'</p>';
+  $('reportLove').innerHTML = love.map(t=>'<div class="love-line"><div class="ll-h">'+loveLabel[t.lv.name]+'</div><div class="ll-p"><span class="pt">'+t.lv.patterns[t.r.dom]+'</span></div><p>'+t.lv.deep[t.r.dom]+'</p></div>').join('');
+}
+
+/* 入口 */
+document.addEventListener('DOMContentLoaded',()=>{
+  $('btnStart').addEventListener('click',()=>{ state.idx=0; state.ans=[]; state.pending=null; renderQuiz(); showView('quiz'); });
+  $('btnPrevQ').addEventListener('click',goBack);
+  $('btnNextQ').addEventListener('click',confirmNext);
+  $('btnBackLevel').addEventListener('click',goBack);
+  $('btnNext').addEventListener('click',()=>{
+    state.locked = false;
+    if(state.idx >= TOTAL){ renderReport(); showView('report'); }
+    else { renderQuiz(); showView('quiz'); }
+  });
+  $('btnRestart').addEventListener('click',()=>{ state.idx=0; state.ans=[]; state.pending=null; showView('cover'); });
+  renderQuiz();
+  showView('cover');
+});
+
+</script>
+</body>
+</html>
